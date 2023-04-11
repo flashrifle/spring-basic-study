@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,26 +12,23 @@ import org.springframework.web.servlet.ModelAndView;
 public class YoilTellerMVC {
 
 	@RequestMapping("/getYoilMVC")
-	public ModelAndView main(int year, int month, int day) throws IOException {
-		//1.ModelAndView를 생성하고, 기본 뷰를 지정 
-		ModelAndView mv = new ModelAndView();
+	public String main(int year, int month, int day, Model model) throws IOException {
+		 // 1. 유효성 검사
+    	if(!isValid(year, month, day)) 
+    		return "yoilError";  // 유효하지 않으면, /WEB-INF/views/yoilError.jsp로 이동
+    	
+        // 2. 처리
+    	char yoil = getYoil(year, month, day);
+
+        // 3. Model에 작업 결과 저장
+        model.addAttribute("year", year);
+        model.addAttribute("month", month);
+        model.addAttribute("day", day);
+        model.addAttribute("yoil", yoil);
         
-		//2. 작업 
-		char yoil = getYoil(year, month, day);
-		
-		//3. 결과 ModelAndView에 저
-		mv.addObject("year", year);
-		mv.addObject("month", month);
-		mv.addObject("day", day);
-		mv.addObject("yoil", yoil);
-		
-		//4. 작업 결과 보여줄 뷰의 이름 지정 
-		mv.setViewName("yoil");
-		
-		//5. ModelAndVie 반환
-		return mv;
-		
-	}
+        // 4. 작업 결과를 보여줄 View의 이름을 반환
+        return "yoil"; // /WEB-INF/views/yoil.jsp
+    }
 
 	private boolean isValid(int year, int month, int day) {
 		return true;

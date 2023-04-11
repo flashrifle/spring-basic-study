@@ -7,17 +7,19 @@ import java.util.StringJoiner;
 public class MethodInfo {
 	
 	public static void main(String[] args) throws Exception {
-
-		Class clazz = Class.forName("com.springmvcstudy.ch2.YoilTeller");
+		
+		// 1. YoilTeller 클래스의 객체를 생성 
+		Class clazz = Class.forName("com.springmvcstudy.ch2.YoilTellerMVC");
 		Object obj = clazz.newInstance();
 		
+		// 2. 모든 메서드 정보를 가져와서 배열에 저장 
 		Method[] methodArr = clazz.getDeclaredMethods();
 		
 		for(Method m : methodArr) {
-			String name = m.getName();
-			Parameter[] paramArr = m.getParameters();
+			String name = m.getName(); 					// 메서드 이름 
+			Parameter[] paramArr = m.getParameters();	// 매개변수 목록
 //			Class[] paramTypeArr = m.getParameterTypes();
-			Class returnType = m.getReturnType();
+			Class returnType = m.getReturnType();		// 반환 타입 
 			
 			StringJoiner paramList = new StringJoiner(", ", "(", ")");
 			
