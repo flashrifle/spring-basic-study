@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class YoilTellerMVC {
+public class YoilTellerMVC2 {
 	
 	@ExceptionHandler(Exception.class)
 	public String catcher(Exception ex) {
@@ -19,7 +19,7 @@ public class YoilTellerMVC {
 		return "yoilError";
 	}
 
-	@RequestMapping("/getYoilMVC")
+	@RequestMapping("/getYoilMVC2")
 	public String main(@RequestParam(required = true)int year, 
 			@RequestParam(required = true)int month, 
 			@RequestParam(required = true)int day, Model model) throws IOException {
