@@ -3,7 +3,9 @@ package com.springmvcstudy.ch2;
 import java.net.URLEncoder;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +21,15 @@ public class LoginController {
 		return "loginForm";
 	}
 	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 	@PostMapping("/login")
-	public String login(String id, String pwd, boolean rememberId, HttpServletResponse response) throws Exception {
-		System.out.println("id = " + id);
-		System.out.println("pwd" + pwd);
-		System.out.println("rememberId = " + rememberId);
+	public String login(String id, String pwd, String toURL,boolean rememberId,
+			HttpServletResponse response, HttpServletRequest request) throws Exception {
 		// 1. id와 pw를 확인한다
 		if(!loginChekc(id, pwd)) {
 			//2-1. id와 pw가 일치하지 않으면, loginform으로 이동
@@ -31,6 +37,11 @@ public class LoginController {
 			return "redirect:/login/login?msg"+msg;
 		}
 		//2-2 일치하면,
+		// 세션 객체 얻어오
+		HttpSession session = request.getSession();
+		// 세션 객체에 id를 저장
+		session.setAttribute("id", id);
+		
 		if(rememberId) {
 			// 1. 쿠키를 생성
 			Cookie cookie = new Cookie("id", id);
@@ -43,7 +54,8 @@ public class LoginController {
 		}
 		
 		// 3. 홈으로 이동
-		return "redirect:/";
+		toURL = toURL==null || toURL.equals("") ? "/" : toURL;
+		return "redirect:"+ toURL;
 	}
 
 	private boolean loginChekc(String id, String pwd) {		
