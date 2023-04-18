@@ -1,0 +1,2 @@
+car=com.springmvcstudy.ch3.diCopy1.SportsCar
+engine=com.springmvcstudy.ch3.diCopy1.Engine
