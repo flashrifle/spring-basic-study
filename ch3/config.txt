@@ -1,2 +1,2 @@
-car=com.springmvcstudy.ch3.diCopy1.SportsCar
-engine=com.springmvcstudy.ch3.diCopy1.Engine
+car=com.springmvcstudy.ch3.diCopy2.Truck
+engine=com.springmvcstudy.ch3.diCopy2.Engine
