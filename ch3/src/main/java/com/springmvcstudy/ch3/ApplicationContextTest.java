@@ -1,3 +1,4 @@
+/*
 package com.springmvcstudy.ch3;
 
 import org.springframework.beans.factory.annotation.*;
@@ -88,3 +89,4 @@ public class ApplicationContextTest {
         System.out.println("properties = " + properties);
     }
 }
+*/
