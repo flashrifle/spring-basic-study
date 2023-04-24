@@ -13,7 +13,7 @@ class TxServiceB {
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public void insertB1WithTx() throws Exception {
         b1Dao.insert(1,100);    // ok
-        b1Dao.insert(1,200);    // false
+        b1Dao.insert(2,200);    // ok
     }
 
 }
@@ -27,8 +27,8 @@ public class TxService {
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void insertA1WithTx() throws Exception {
         a1Dao.insert(1,100);    // ok
-        txServiceB.insertB1WithTx();
-        a1Dao.insert(2,200);    // ok
+        try { txServiceB.insertB1WithTx(); } catch (Exception e) { e.printStackTrace(); }
+        a1Dao.insert(1,200);    // false
     }
 
 
