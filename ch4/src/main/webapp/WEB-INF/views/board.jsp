@@ -67,7 +67,7 @@
                 return;
             }
             // 2. 수정 상태면 수정된 내용을 서버로 전송
-            form.attr("action","<c:url value='/board/modify'/>");
+            form.attr("action","<c:url value='/board/modify'/>?page=${page}&pageSize=${pageSize}");
             form.attr("method", "post");
             form.submit();
         });

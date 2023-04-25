@@ -26,14 +26,15 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
-
     @PostMapping("/modify")
-    public String modify(BoardDto boardDto, Model m, HttpSession session, RedirectAttributes rattr) {
+    public String modify(BoardDto boardDto, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
         String writer = (String) session.getAttribute("id");
         boardDto.setWriter(writer);
 
         try {
-//            PageHandler pageHandler = new PageHandler(page, pageSize);
+
+            System.out.println("page = " + page);
+            System.out.println("pageSize = " + pageSize);
 
             int rowCnt = boardService.modify(boardDto);   // insert
 
@@ -41,8 +42,8 @@ public class BoardController {
                 throw new Exception("Modify Failed");
             rattr.addFlashAttribute("msg", "MOD_OK");
 
-//            return "redirect:/board/list?page="+pageHandler.getPage()+"&pageSize="+pageHandler.getPageSize();
-            return "redirect:/board/list";
+            return "redirect:/board/list?page="+page+"&pageSize="+pageSize;
+
         } catch (Exception e) {
             e.printStackTrace();
             m.addAttribute(boardDto); // 예외가 발생했을 때 입력값을 되돌려줌
@@ -81,6 +82,8 @@ public class BoardController {
     public String remove(Integer bno, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
         String writer = (String)session.getAttribute("id");
         try {
+            System.out.println("page = " + page);
+            System.out.println("pageSize = " + pageSize);
             m.addAttribute("page", page);
             m.addAttribute("pageSize", pageSize);
             int rowCnt = boardService.remove(bno, writer);
@@ -122,6 +125,8 @@ public class BoardController {
         try {
             int totalCnt = boardService.getCount();
             PageHandler pageHandler = new PageHandler(totalCnt, page, pageSize);
+//            System.out.println("List pageHandler.getPage() = " + pageHandler.getPage());
+//            System.out.println("List pageHandler.getPageSize() = " + pageHandler.getPageSize());
 
             Map map = new HashMap();
             map.put("offset",(page-1) * pageSize);
